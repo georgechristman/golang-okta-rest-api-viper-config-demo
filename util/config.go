@@ -10,7 +10,7 @@ type Config struct {
 	Audience     string `mapstructure:"OKTA_AUDIENCE"`
 }
 
-// LoadConfig reads configuration from file or environment variables
+// LoadConfig reads configuration from file or environment variables test
 func LoadConfig(path string) (config Config, err error) {
 	viper.AddConfigPath(path)
 	viper.SetConfigFile("app")
