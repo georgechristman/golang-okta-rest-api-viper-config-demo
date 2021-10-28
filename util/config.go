@@ -7,9 +7,10 @@ import (
 // Config stores all configuration of the application.
 // The values are read by viper from a config file or environment variables
 type Config struct {
-	OktaClientId string `mapstructure:"OKTA_CLIENT_ID"`
-	OktaIssuer   string `mapstructure:"OKTA_ISSUER"`
-	Audience     string `mapstructure:"OKTA_AUDIENCE"`
+	OktaClientId  string `mapstructure:"OKTA_CLIENT_ID"`
+	OktaIssuer    string `mapstructure:"OKTA_ISSUER"`
+	Audience      string `mapstructure:"OKTA_AUDIENCE"`
+	ServerAddress string `mapstructure:"SERVER_ADDRESS"`
 }
 
 // LoadConfig reads configuration from file or environment variables.
