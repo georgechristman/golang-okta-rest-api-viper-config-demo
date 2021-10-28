@@ -50,6 +50,7 @@ func authMiddleware(config util.Config) gin.HandlerFunc {
 				"cid": config.OktaClientId,
 			},
 		}
+		// Verify okta access token
 		verifier := verifierSetup.New()
 		payload, err := verifier.VerifyAccessToken(accessToken)
 		if err != nil {
