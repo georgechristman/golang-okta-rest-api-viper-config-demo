@@ -1,6 +1,7 @@
 package api
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -18,5 +19,15 @@ var persons = []person{
 }
 
 func (server *Server) listPersons(ctx *gin.Context) {
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*Payload)
+
+	hasAccess := HasGroup(authPayload.Groups, "PORTAL_DASHBOARD_MERLIN_RPCI")
+
+	if !hasAccess {
+		err := errors.New("access denied")
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+
+	}
 	ctx.JSON(http.StatusOK, persons)
 }

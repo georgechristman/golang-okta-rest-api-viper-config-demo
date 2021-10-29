@@ -3,8 +3,8 @@ module github.com/georgechristman/golang-okta-rest-api-viper-config-demo
 go 1.17
 
 require (
-	github.com/gin-contrib/static v0.0.1
 	github.com/gin-gonic/gin v1.7.4
+	github.com/mitchellh/mapstructure v1.4.2
 	github.com/okta/okta-jwt-verifier-golang v1.1.1
 	github.com/spf13/viper v1.9.0
 )
@@ -29,7 +29,6 @@ require (
 	github.com/lestrrat-go/option v1.0.0 // indirect
 	github.com/magiconair/properties v1.8.5 // indirect
 	github.com/mattn/go-isatty v0.0.12 // indirect
-	github.com/mitchellh/mapstructure v1.4.2 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/patrickmn/go-cache v0.0.0-20180815053127-5633e0862627 // indirect

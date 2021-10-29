@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -16,6 +17,11 @@ const (
 	authorizationTypeBearer = "bearer"
 	authorizationPayloadKey = "authorization_payload"
 )
+
+type Payload struct {
+	Email  string   `json: "email"`
+	Groups []string `json:"groups"`
+}
 
 // AuthMiddleware creates a gin middleware for authorization
 func authMiddleware(config util.Config) gin.HandlerFunc {
@@ -52,14 +58,46 @@ func authMiddleware(config util.Config) gin.HandlerFunc {
 		}
 		// Verify okta access token
 		verifier := verifierSetup.New()
-		payload, err := verifier.VerifyAccessToken(accessToken)
+		jwtToken, err := verifier.VerifyAccessToken(accessToken)
 		if err != nil {
-			fmt.Printf("fail %s", err)
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, errorResponse(err))
 			return
 		}
-		fmt.Printf("pass")
+
+		payload, err := payloadToStruct(jwtToken.Claims)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, errorResponse(err))
+			return
+		}
+
 		ctx.Set(authorizationPayloadKey, payload)
 		ctx.Next()
 	}
+}
+
+func payloadToStruct(claims map[string]interface{}) (*Payload, error) {
+
+	// Convert claims to json string
+	jsonStr, err := json.Marshal(claims)
+	if err != nil {
+		return nil, err
+	}
+
+	payload := &Payload{}
+
+	// Convert json string to struct
+	if err := json.Unmarshal(jsonStr, payload); err != nil {
+		return nil, err
+	}
+
+	return payload, nil
+}
+
+func HasGroup(arr []string, str string) bool {
+	for _, a := range arr {
+		if a == str {
+			return true
+		}
+	}
+	return false
 }
