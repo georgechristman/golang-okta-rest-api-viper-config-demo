@@ -93,9 +93,18 @@ func payloadToStruct(claims map[string]interface{}) (*Payload, error) {
 	return payload, nil
 }
 
-func HasGroup(arr []string, str string) bool {
+func (payload *Payload) hasGroup(str string) bool {
+	for _, a := range payload.Groups {
+		if strings.EqualFold(a, str) {
+			return true
+		}
+	}
+	return false
+}
+
+func (payload *Payload) hasGroups(arr []string) bool {
 	for _, a := range arr {
-		if a == str {
+		if payload.hasGroup(a) {
 			return true
 		}
 	}
