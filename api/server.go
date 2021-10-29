@@ -21,13 +21,14 @@ func NewServer(config util.Config) (*Server, error) {
 }
 
 func (server *Server) setupRouter() {
-
 	router := gin.Default()
 
 	router.GET("/login", server.listPersons)
 
 	authRoutes := router.Group("/").Use(authMiddleware(server.config))
 	authRoutes.GET("/persons", server.listPersons)
+	authRoutes.GET("/person", server.getPerson)
+	authRoutes.PUT("/person", server.updatePerson)
 
 	server.router = router
 }
