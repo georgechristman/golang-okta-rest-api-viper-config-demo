@@ -21,7 +21,7 @@ var persons = []person{
 func (server *Server) listPersons(ctx *gin.Context) {
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*Payload)
 
-	hasAccess := authPayload.hasGroup("PORTAL_DASHBOARD_MERLIN_RPCI")
+	hasAccess := authPayload.hasGroup("PORTAL_DASHBOARD_MERLIN_rpci")
 
 	if !hasAccess {
 		err := errors.New("access denied")
@@ -50,7 +50,6 @@ func (server *Server) updatePerson(ctx *gin.Context) {
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*Payload)
 
 	hasAccess := authPayload.hasGroups([]string{"PORTAL_DASHBOARD_MERLIN_RPC", "PORTAL_DASHBOARD_MERLIN_RPCI"})
-
 	if !hasAccess {
 		err := errors.New("access denied")
 		ctx.JSON(http.StatusUnauthorized, errorResponse(err))

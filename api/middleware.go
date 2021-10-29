@@ -19,8 +19,11 @@ const (
 )
 
 type Payload struct {
-	Email  string   `json: "email"`
-	Groups []string `json:"groups"`
+	Uid       string   `json:"uid"`
+	Email     string   `json: "email"`
+	FirstName string   `json:"firstName"`
+	LastName  string   `json:"lastName"`
+	Groups    []string `json:"groups"`
 }
 
 // AuthMiddleware creates a gin middleware for authorization
@@ -109,4 +112,8 @@ func (payload *Payload) hasGroups(arr []string) bool {
 		}
 	}
 	return false
+}
+
+func (payload *Payload) isOwner(uid string) bool {
+	return strings.EqualFold(payload.Uid, uid)
 }
